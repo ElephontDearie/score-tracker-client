@@ -1,0 +1,61 @@
+
+.topicPage {
+    display: flexbox;
+    align-items: center;
+    background-color: rgb(187, 99, 99);
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
+.topicPage button {
+    border-radius: 50px;
+    font-size: large;
+    font-weight: bold;
+    border-style: groove;
+    border-color: rgb(145, 48, 236);
+    display:inline-flex;
+    margin: 10px;
+}
+.topicPage button:after {
+
+}
+.main {
+    display: flexbox;
+
+    background-color: rgb(224, 191, 191);
+}
+
+.topicLevels button:nth-child(1) {
+    background: rgb(150, 241, 46);
+    color: rgb(19, 15, 15)
+}
+.topicLevels button:nth-child(2) {
+    background: rgb(238, 205, 58);
+    color: rgb(8, 7, 7)
+}
+.topicLevels button:nth-child(2) {
+    background: rgb(141, 25, 10);
+    color: rgb(248, 237, 237)
+}
+
+.topicNames button:nth-child(1) {
+    background: rgb(231, 37, 150);
+    color: rgb(245, 235, 235)
+}
+
+.topicNames button:nth-child(2) {
+    background: rgb(37, 177, 212);
+    color: rgb(20, 15, 15)
+}
+
+.topicNames button:nth-child(3) {
+    background: rgb(55, 37, 212);
+    color: rgb(214, 214, 214)
+}
+
+.footer {
+    display: flex;
+    justify-content: center;
+  
+}

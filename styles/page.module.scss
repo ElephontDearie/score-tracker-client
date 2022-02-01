@@ -1,0 +1,31 @@
+.backButton {
+    position: relative;
+    background-color:rgb(83, 68, 82);
+    color: white;
+    font-size: medium;
+  }
+
+// .loadingSpinner {
+//     border: 20px solid rgb(255, 255, 255);
+//     border-top: 20px solid rgb(87, 79, 79);
+//     border-radius: 70%;
+//     width: 150px;
+//     height: 150px;
+//     animation: spin 4s linear infinite;
+// }
+
+.pageLoadingSpinner {
+
+    border: 20px solid rgb(255, 255, 255);
+    border-top: 20px solid rgb(87, 79, 79);
+    border-radius: 70%;
+    width: 150px;
+    height: 150px;
+    animation: spin 4s linear infinite;
+    top: 30%
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

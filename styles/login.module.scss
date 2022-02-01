@@ -1,0 +1,27 @@
+.loginBox {
+    display: flexbox;
+    background-color:  #d9dbb7d3;
+    border-radius: 5px;
+    font-family: 'Courier New', Courier, monospace;
+    text-align: center;
+    font-weight: bold;
+
+}
+
+.loginBox span {
+    font-size: large;
+    // background-color: rgb(179, 144, 69);
+    color: rgb(65, 12, 65);
+
+    width: max-content;
+}
+.loginBox section {
+    background-color: rgb(108, 161, 27);
+    color: rgb(19, 16, 19);
+    font-size: large;
+    border-radius: 5px;
+}
+
+.loginBox input:required {
+    background: rgb(245, 223, 223);
+}
