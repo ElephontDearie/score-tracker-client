@@ -1,48 +1,110 @@
 @import 'page.module.scss';
 
+$crud-button-bkg-color: rgb(110, 10, 10);
+$crud-button-text-color: var(--brand-text-color);
+$crud-button-border-radius: var(--standard-border-radius);
+$crud-button-padding: 0.5rem;
+
+.quizPage header {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.quizCrudButtons {
+    display: inline-flex;
+}
+.quizCrudButtons button {
+    padding: $crud-button-padding;
+    border-radius: var(--standard-border-radius);
+    color: $crud-button-text-color;
+    background-color: $crud-button-bkg-color;
+}
+
+.quizPage .backButton {
+    order: 5;
+}
+
+.mainQuizSpace {
+    display: flex;
+    flex-direction: column;
+}
+
+.questionList {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(37, 39, 66);
+    color: rgb(8, 4, 19);
+    border-radius: 100px;
+    padding: 3rem;
+}
+.questionList .questionUnit {
+   
+    background-color: rgb(32, 27, 27);
+    margin-bottom: 70px;
+    border-radius: 50px;
+    padding: 3rem;
+}
+.question {
+    background-color:rgb(80, 138, 177);
+    color: var(--brand-text-color);
+    width: fit-content;
+    flex-direction: row;
+    display: flexbox;
+    padding: 1rem;
+    border-radius: var(--standard-border-radius);
+}
+
+.question button {
+    padding: 0.3rem;
+    background-color: $crud-button-bkg-color;
+    color: $crud-button-text-color;
+    border-radius: $crud-button-border-radius;
+}
+
+.quizPage button {
+    border-style: groove;
+    border: 2rem;
+    border-color: rgb(145, 48, 236);
+    margin: 2rem;
+}
+.options {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
 .options button {
-    // margin-right: 5px;
-    // border-color: rgb(140, 233, 233);
-    // border-style: double;
-    // border-radius: 50%;
-    
-    // background-color: purple;
-    // color: wheat;
-    // display: block;
-    // font-size: large;
-    text-align: center;
-    height: 30px
-    
+    padding: 1rem;
+    border-radius: var(--standard-border-radius);
 }
 
 .options button:hover { background-color: rgb(226, 163, 28);}
 .options button:focus { background-color: rgb(226, 163, 28);}
 .options button:active { background-color: rgb(226, 28, 209);}
 
-.options {
-    display: flex;
-    // justify-content: center;
-}
-.question {
-    background-color:rgb(80, 138, 177);
-    border-radius: 100px;
-    // font-size: large;
-    width: fit-content;
-    // justify-content: center;
-    // display: flexbox;
+.options ol {
+    color: white;
+    list-style-type: upper-alpha;
+    display: inline-flex;
+    flex-direction: row;
+    gap: 2rem;
 }
 
-.questionList .questionUnit {
-    background-color: rgb(32, 27, 27);
-    color: whitesmoke;
-    // width: 100%;
-    margin-bottom: 70px;
-    border-radius: 50px;
+.optionAnswer {
+    color: white;
 }
 
-.questionList {
-    background-color: rgb(37, 39, 66);
-    color: rgb(8, 4, 19);
-    border-radius: 100px;
-    // margin: 10px/;
+.answerArea button {
+    padding: 0.3rem;
+    background-color: $crud-button-bkg-color;
+    color: $crud-button-text-color;
+    border-radius: $crud-button-border-radius;
+}
+
+.questionEdit {
+    display: inline-flex;
+
 }

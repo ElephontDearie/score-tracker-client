@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Dispatch, FormEvent, SetStateAction, useState } from "react";
-import { securityPath } from "../constants";
+import { securityPath } from "../utils/constants";
 import css from '../styles/user_forms.module.scss';
 import { UserLevel } from "./login";
 

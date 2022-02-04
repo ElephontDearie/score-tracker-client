@@ -1,4 +1,4 @@
-import { LoginBox, LoginBoxProps, UserLevel } from "./login";
+import { LoginBox, LoginBoxProps, Logout, UserLevel } from "./login";
 import css from '../styles/user_box.module.scss';
 import React, { Dispatch, FormEvent, SetStateAction, useEffect, useState } from "react";
 import axios from "axios";
@@ -13,18 +13,27 @@ interface UserBoxProps extends LoginBoxProps {
 
 export const UserBox = ({username, setUsername, access, setUserLevelFn, score, signedIn, setSignedIn}: UserBoxProps): JSX.Element => {
     const [showSecurity, setShowSecurity] = useState<boolean>(false);
+    const [userMessage, setUserMessage] = useState<string>('');
+    useEffect(() => {
+        !signedIn && setUserMessage('Please login to save your score');
+
+    }, [])
 
     return (
         <section className={css.userSpace}>
-            {!signedIn && <LoginBox username={username} setUsername={setUsername} setUserLevelFn={setUserLevelFn} setSignedIn={setSignedIn} />}
+            
+            {!signedIn && <LoginBox username={username} setUsername={setUsername} setUserLevelFn={setUserLevelFn} setSignedIn={setSignedIn} 
+                                messageSetter={setUserMessage}/>}
             <div className={css.box}>
                 <span>{username || 'anonymous'}</span>
                 <span className={applyAccessColour(access)}>Access: {access}</span>
                 <span>Score: {score}</span>
-                {!signedIn && <p>Please login to save your score</p>}
+                {userMessage}
 
             </div>
-            {signedIn && <div className={css.increaseAccess}>
+            {signedIn && 
+
+            <div className={css.increaseAccess}>
                 <p>Hover here to access more!</p>
 
                     <article className={css.accessButton}>
@@ -41,6 +50,9 @@ export const UserBox = ({username, setUsername, access, setUserLevelFn, score, s
 
                     
             </div>}
+            {signedIn && <Logout setSignedIn={setSignedIn} setUsername={setUsername} setUserLevel={setUserLevelFn} messageSetter={setUserMessage} />}
+
+           
         </section>
     )
 }

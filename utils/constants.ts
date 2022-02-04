@@ -7,7 +7,7 @@ export const quizTopicLevels = (topicName: string): string =>`${quizPath}/${topi
 export const quizIdPath = (topicName: string, level: string): string =>`${quizPath}/${topicName}/${level}`
 export const singleQuizIdPath = (id: string): string => `${quizPath}/${id}`
 
-export const singleQuestionIdPath = (quizId: string, questionId: string, ) => `${quizIdPath}/${quizId}/${questionId}`;
+export const singleQuestionIdPath = (quizId: string, questionId: string, ) => `${quizPath}/${quizId}/${questionId}`;
 
 export const scorePath = (username: string): string => `${apiUri}/user/${username}/score`;
 

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Dispatch, SetStateAction, useState, FormEvent } from "react";
-import { loginPath, registerPath } from "../constants";
+import { loginPath, registerPath } from "../utils/constants";
 import css from "../styles/login.module.scss";
 
 export enum UserLevel {
@@ -24,9 +24,13 @@ export interface LoginBoxProps {
     setSignedIn: Dispatch<SetStateAction<boolean>>;
 }
 
-export const LoginBox = ({username, setUsername, setUserLevelFn, setSignedIn}: LoginBoxProps): JSX.Element => {
-    const [password, setPassword] = useState("");
-    const [emailAdd, setEmailAdd] = useState("");
+interface LoginMessageProps extends LoginBoxProps {
+    messageSetter: Dispatch<SetStateAction<string | null>>;
+}
+
+export const LoginBox = ({username, setUsername, setUserLevelFn, setSignedIn, messageSetter}: LoginMessageProps): JSX.Element => {
+    const [password, setPassword] = useState<string>("");
+    const [emailAdd, setEmailAdd] = useState<string>("");
 
     const [isLogin, setIsLogin] = useState<boolean>(true);
 
@@ -37,17 +41,12 @@ export const LoginBox = ({username, setUsername, setUserLevelFn, setSignedIn}: L
             password: password,
             emailAddress: emailAdd
         }
-        console.log(user);
 
         const requestPath = isLogin ? loginPath : registerPath;
 
         axios.post(requestPath, user)
             .then(response => {
-                // console.log(response);
                 !isLogin && response.status == 201 && setIsLogin(prevState => !prevState);
-
-                // set cookies on response.data.token 
-                console.log(response.data)
 
                 const receivedData: UserSessionDetails = JSON.parse(JSON.stringify(response.data));
                 sessionStorage.setItem('authToken', receivedData.authToken);
@@ -56,7 +55,7 @@ export const LoginBox = ({username, setUsername, setUserLevelFn, setSignedIn}: L
                 localStorage.setItem('userLevel', receivedData.userLevel);
                 setUserLevelFn(receivedData.userLevel);
                 setSignedIn(true);
-                
+                messageSetter('Signed in')
             }).catch(error => {
                 console.log(error);
                 error.response && error.response.status == 404 && setIsLogin((prevState) => !prevState);
@@ -70,12 +69,32 @@ export const LoginBox = ({username, setUsername, setUserLevelFn, setSignedIn}: L
                 {loginField('Username', username, setUsername, ".{5,}", "At least 5 characters required")}
                 {loginField('Password', password, setPassword, "(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{6,}", "At least 6 characters with 1 lowercase letter, 1 uppercase letter, and 1 digit required")}
                 {!isLogin && loginField('Email Address', emailAdd, setEmailAdd, ".+@[a-z0-9]+\.[a-z]{2,}$", "name@example.com format required", true)}
-                <input type="submit" value="submit" />
+                <input type="submit" value="submit" className={css.submitButton} />
             </fieldset>
         </form>
     )
+}
 
-    
+export const Logout = ({setSignedIn, setUsername, setUserLevel, messageSetter}: {setSignedIn: Dispatch<SetStateAction<boolean>>,
+                                                                    setUserLevel, setUsername, messageSetter: Dispatch<SetStateAction<string>>}) => {
+
+
+    const logoutHandler = () => {
+        try {
+            localStorage.removeItem('username');
+            localStorage.setItem('userLevel', 'Unauthenticated');
+            localStorage.removeItem('score');
+            sessionStorage.removeItem('authToken')
+            setSignedIn(false) 
+            setUsername(null);
+            setUserLevel(UserLevel.Unauthenticated);
+            messageSetter('Successfully logged out.')
+        } catch (err) {
+            console.log(err);
+            messageSetter('Error while logging out. Please clear your browser data manually.')
+        }
+    }
+    return <button onClick={logoutHandler}>logout</button>
 }
 
 const loginField = (inputLabel: string, value: string, setter: Dispatch<SetStateAction<string>>, pattern: string, patternTitle: string, email?: boolean): JSX.Element => 

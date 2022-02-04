@@ -1,51 +1,71 @@
 import { useRouter } from "next/router"
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { QuizModel } from "../../components/quiz_forms";
-import QuizManagerClient from "../quiz_manager_client";
+import { useEffect, useState, MouseEvent } from "react";
+import { AddQuiz } from "../../components/quiz_forms";
+import QuizManagerClient from "../../utils/quiz_manager_client";
 import css from '../../styles/topic.module.scss';
 import { GiCrossroad } from 'react-icons/gi';
+import { returnToPrevious } from "../../utils/utilities";
 
-interface QuizNameResponse {
+export interface QuizNameResponse {
     name: string;
     _id: string;
 }
 
 export default function TopicPage(): JSX.Element {
-    const [namesList, setNamesList] = useState<QuizNameResponse[]>()
-    const [levels, setLevels] = useState<string[] | undefined>();
-    const [quizName, setQuizName] = useState<string>();
+    const [requestStatus, setRequestStatus] = useState<string>('');
+    const [namesList, setNamesList] = useState<QuizNameResponse[]>([])
+    const [levels, setLevels] = useState<string[] | undefined>(undefined);
+    const [quizLevel, setQuizLevel] = useState<string>(null);
+    const [parsedTopic, setParsedTopic] = useState<string>(null);
+
     const router = useRouter();
     const { query: { topic }, } = router;
-    const correctedTopic = topic.toString().replace('_', ' ');
+    const correctedTopic = (topic) => topic.toString().replace('_', ' ');
+
     useEffect(() => {
+        localStorage.setItem('route', JSON.stringify(router.asPath));
+        if (topic) {
+            setParsedTopic(correctedTopic(topic));
+            QuizManagerClient.getQuizLevels(correctedTopic(topic)).then(res => {
+                setLevels(res.data.levels)
+            }).catch(err => console.log(err));
 
-        topic && QuizManagerClient.getQuizLevels(topic.toString()).then(res => {
-            setLevels(res.data.levels)
+        }
+  
+    }, [router])
 
-        }).catch(err => console.log(err));
-    }, [])
+    const getQuizNames = () => { 
+        QuizManagerClient.getQuizNames(topic.toString(), quizLevel).then(res => { 
+            setNamesList(res.data.quizNames)
+        }).catch(err => console.log(err)); 
+    }
 
-    const getQuizNames = (namesSetter: Dispatch<SetStateAction<QuizNameResponse[]>>, topic: string, quizLevel: string) => {
-        return QuizManagerClient.getQuizNames(topic, quizLevel).then(res => namesSetter(res.data.quizNames)).catch(err => console.log(err));
+    const onLevelSelect = (event: MouseEvent, newLevel: string) => {
+        setQuizLevel(newLevel);
+        getQuizNames();
     }
 
     return (
         <div className={css.topicPage}>
-            <header><h1>Select your quiz options</h1></header>
+            <header>
+            <button className={css.backButton} onClick={(): void => returnToPrevious(router)}>&larr; Return to Previous Page
+                </button>
+            <h1>Select your quiz options</h1>
+            </header>
             <main className={css.main}>  
                 <div className={css.topicLevels}>
-                    {topic && <h2>Available Quiz Levels for {correctedTopic}</h2>}
+                    {topic && <h2>Available Quiz Levels for {parsedTopic}</h2>}
                     <ul>
-                        {levels && levels.map(quizLevel => {
-                        return <button onClick={() => getQuizNames(setNamesList, topic.toString(), quizLevel)} key={quizLevel}>
-                            <li>{quizLevel}</li>
+                        {levels && levels.map(level => {
+                        return <button onClick={event => onLevelSelect(event, level)} key={level}>
+                            <li>{level}</li>
                             </button>
                         } )}
                     </ul>
                 </div>
                 {namesList && 
                 <div className={css.topicNames}>
-                    <h2>Available Quizzes for {correctedTopic} at chosen difficulty level</h2>
+                    <h2>Available Quizzes for {parsedTopic} at chosen difficulty level</h2>
                     <ul>
                     {namesList.map((nameUnit: QuizNameResponse) => 
                         <button onClick={(): Promise<boolean> => router.push({pathname: `/quiz/${nameUnit._id.toString()}`})} key={nameUnit._id}>
@@ -53,7 +73,10 @@ export default function TopicPage(): JSX.Element {
                         </button>
                         )}
                     </ul>
+                    <AddQuiz refreshPageData={getQuizNames} setRequestStatus={setRequestStatus}/>
+                    {requestStatus}
                 </div>}
+
             </main>
             <footer className={css.footer}>
                     <GiCrossroad size={100} color="aqua" />

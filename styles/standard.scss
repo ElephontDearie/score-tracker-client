@@ -1,0 +1,56 @@
+:root {
+    background: rgb(187, 99, 99);
+    --main-section-color: rgb(224, 191, 191);
+    --brand-bkg-color: rgb(161, 124, 147);
+    --brand-text-color: white;
+    --active-color: rgb(108, 161, 27);
+    --standard-border-radius: 1rem;
+    --standard-font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; 
+    --secondary-font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, 
+                            Droid Sans, Helvetica Neue, sans-serif;
+}
+
+main {
+    background: var(--main-section-color);
+    padding: 5rem 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: var(--standard-font-family);
+    border-radius: var(--standard-border-radius);
+}
+
+footer {
+    display: flex;
+    padding: 1rem;
+    justify-content: flex-end;
+    font-family: var(--standard-font-family);
+}
+footer .span {
+    flex-direction: row;
+    row-gap: 1rem;
+}
+
+input {
+    margin: 0.1rem;
+    font-family: var(--standard-font-family);
+}
+input[type=text]:focus {
+    width: 200px;
+}
+input[type=text]::placeholder{
+    color: rgb(217, 227, 235);
+}
+
+input:required {
+    background: rgb(78, 72, 72);
+    color: aliceblue;
+}
+
+html,
+body {
+    padding: 0;
+    margin: 0;
+    font-family: var(--standard-font-family);
+}

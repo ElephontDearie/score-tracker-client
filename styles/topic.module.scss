@@ -1,11 +1,6 @@
-
 .topicPage {
     display: flexbox;
     align-items: center;
-    background-color: rgb(187, 99, 99);
-    height: 100%;
-    width: 100%;
-    position: absolute;
 }
 
 .topicPage button {
@@ -16,14 +11,6 @@
     border-color: rgb(145, 48, 236);
     display:inline-flex;
     margin: 10px;
-}
-.topicPage button:after {
-
-}
-.main {
-    display: flexbox;
-
-    background-color: rgb(224, 191, 191);
 }
 
 .topicLevels button:nth-child(1) {

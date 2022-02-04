@@ -1,13 +1,10 @@
-import axios from 'axios';
-import { prepareServerlessUrl } from 'next/dist/server/base-server';
 import { useEffect, useState } from 'react';
 import { UserLevel } from '../components/login';
 import { QuizTopics, TopicGrid } from "../components/topic_grid";
 import { UserBox } from '../components/user_box';
-import { quizPath } from '../constants';
-import standardCss from "../styles/standard.module.scss"
-import mockData from "./dummy_data.json";
-import QuizManagerClient from './quiz_manager_client';
+import QuizManagerClient from '../utils/quiz_manager_client';
+import css from "../styles/index.module.scss"
+
 
 export default function Home() {
   const [topics, setTopics] = useState<QuizTopics>();
@@ -28,54 +25,38 @@ export default function Home() {
       setUserLevel(storedUserData.userLevel);
       setSignedIn(true);
     }
-    // axios.get(quizPath).then(res => setQuizData({quizzes: res.data}))
     QuizManagerClient.getQuizTopics().then(res => setTopics(res.data));
-    // simulateDataLatency(3000).then(res => setQuizData(res));
   }, [])
-  console.log(topics)
   
 
   return (
-    <div className={standardCss.container}>
+    <div className={css.homePage}>
       <header>
-        <h1 className={standardCss.title}>
-          Welcome to your <a href="https://nextjs.org">Quiz Manager!</a>
+        <div className={css.homeHeaders}>
+        <h1 className={css.welcome}>
+          Welcome to your Quiz Manager!
         </h1>
-        <h2>The Comprehensive Platform to Score Your Progress</h2>
-        <link rel="icon" href="/favicon.ico" />
+        <h4>The Comprehensive Platform to Score Your Progress</h4>
+        </div>
+        <div className={css.userBox}>
+            <UserBox username={username} setUsername={setUsername} access={userLevel} setUserLevelFn={setUserLevel} score={score} 
+                signedIn={signedIn} setSignedIn={setSignedIn}/>
+          </div>
       </header>
 
-      <main>
+      <main className={css.mainHome}>
         <div>
-          <UserBox username={username} setUsername={setUsername} access={userLevel} setUserLevelFn={setUserLevel} score={score} signedIn={signedIn} setSignedIn={setSignedIn}/>
 
-          {!topics && <div className={standardCss.loadingSpinner}></div>}
-          {/* {data &&  */}
+          {!topics && <div className={css.loadingSpinner}></div>}
           <TopicGrid topics={topics?.topics} />
         </div>
       </main>
 
-
-      <footer>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel" className={standardCss.logo} />
-        </a>
+      <footer className={css.provider}>
+          <span>Hosted by WebbiSkools Ltd</span>
       </footer>
-
     </div>
   )
 }
-
-// const simulateDataLatency = (latencyDelayMilliseconnds: number): Promise<TopicGridProps> => {
-//   return new Promise(resolve => 
-//     setTimeout(() => { 
-//       resolve(mockData)
-//     }, latencyDelayMilliseconnds))
-// }
 
 

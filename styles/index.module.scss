@@ -1,0 +1,48 @@
+@import 'page.module.scss';
+
+.homePage {
+    display: flex;
+    flex-direction: column;
+}
+
+.homePage header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 2rem;
+    justify-content: center;
+    font-size: larger;
+}
+
+.homePage header h1 {
+    border-radius: var(--standard-border-radius);
+    flex:1;
+    width: 100%;
+}
+
+.homePage header h4 {
+    border-radius: var(--standard-border-radius);
+    margin-left: 10rem;
+    margin-right: 10rem;
+}
+
+.welcome {
+    flex-direction: row;
+}
+
+.mainHome {
+    flex-direction: row;
+    border-radius: 7rem;
+}
+
+
+.provider {
+    border-radius: 5rem;
+}
+
+.provider span {
+    background-color: var(--brand-bkg-color);
+    color: var(--brand-text-color);
+    padding: 1rem;
+    border-radius: 1rem;
+}
