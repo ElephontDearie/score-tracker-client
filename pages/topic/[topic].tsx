@@ -13,9 +13,9 @@ export interface QuizNameResponse {
 
 export default function TopicPage(): JSX.Element {
     const [requestStatus, setRequestStatus] = useState<string>('');
-    const [namesList, setNamesList] = useState<QuizNameResponse[]>([])
+    const [namesList, setNamesList] = useState<QuizNameResponse[] | undefined>(undefined)
     const [levels, setLevels] = useState<string[] | undefined>(undefined);
-    const [quizLevel, setQuizLevel] = useState<string>(null);
+    const [quizLevel, setQuizLevel] = useState<string>();
     const [parsedTopic, setParsedTopic] = useState<string>(null);
 
     const router = useRouter();
@@ -34,15 +34,15 @@ export default function TopicPage(): JSX.Element {
   
     }, [router])
 
-    const getQuizNames = () => { 
-        QuizManagerClient.getQuizNames(topic.toString(), quizLevel).then(res => { 
+    const getQuizNames = (newLevel: string) => { 
+        QuizManagerClient.getQuizNames(topic.toString(), newLevel).then(res => { 
             setNamesList(res.data.quizNames)
         }).catch(err => console.log(err)); 
     }
 
     const onLevelSelect = (event: MouseEvent, newLevel: string) => {
         setQuizLevel(newLevel);
-        getQuizNames();
+        getQuizNames(newLevel);
     }
 
     return (
@@ -73,7 +73,7 @@ export default function TopicPage(): JSX.Element {
                         </button>
                         )}
                     </ul>
-                    <AddQuiz refreshPageData={getQuizNames} setRequestStatus={setRequestStatus}/>
+                    <AddQuiz refreshPageData={getQuizNames} newLevel={quizLevel} setRequestStatus={setRequestStatus}/>
                     {requestStatus}
                 </div>}
 

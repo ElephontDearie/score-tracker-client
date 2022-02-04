@@ -300,7 +300,7 @@ export const EditQuizMetadataButton = ({quizId, refreshQuestionsFn}: EditQuizMet
 }
 
 
-export const AddQuiz = ({refreshPageData, setRequestStatus}: {refreshPageData: () => void, setRequestStatus: Dispatch<SetStateAction<string>>}) => {
+export const AddQuiz = ({refreshPageData, newLevel, setRequestStatus}: {refreshPageData: (level: string) => void, newLevel: string, setRequestStatus: Dispatch<SetStateAction<string>>}) => {
     const [addClicked, setAddClicked] = useState<boolean>(false);
     const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
 
@@ -322,7 +322,7 @@ export const AddQuiz = ({refreshPageData, setRequestStatus}: {refreshPageData: (
             questions
         }).then(res => {
             res.status == 201 && setRequestStatus('New Quiz added!')
-            refreshPageData()
+            refreshPageData(newLevel)
         }).catch(err => {
             console.log(err.response);
             setRequestStatus('The quiz could not be created.')
